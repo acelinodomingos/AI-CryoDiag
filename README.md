@@ -1,37 +1,40 @@
-
-## Arquitetura do Sistema
+## Diagrama de Arquitetura do Sistema
 
 ```mermaid
 graph TB
-    subgraph "Tanques Criogênicos & Equipamentos Hospitalares"
-        A[Sensores IoT<br/>Temperatura • Pressão • Nível • Vazão]
-    end
+    A[Tanque Criogênico<br/>Oxigênio Líquido / Nitrogênio Líquido]
+    B[Sensor de Pressão<br/>(0-25 bar)]
+    C[Sensor de Nível<br/>(Ultrasônico / Radar)]
+    D[Sensor de Temperatura<br/>(PT100 / Termopar)]
+    E[Gateway IoT<br/>(ESP32 / Raspberry Pi 4)]
+    F[MQTT Broker<br/>(Mosquitto / EMQX / HiveMQ)]
+    G["Alertas Push em Tempo Real<br/>(Firebase Cloud Messaging)"]
+    H["Dashboard Web<br/>(React.js + Chart.js + Tailwind)"]
+    I["Modelo de Machine Learning<br/>(Detecção de vazamentos e falhas)"]
+    J[Banco de Dados<br/>(InfluxDB + PostgreSQL)]
+    K[API REST<br/>(FastAPI / Flask)]
+    L[App Mobile<br/>(Flutter ou React Native)]
 
-    A -->|MQTT / LoRa| B[Edge Gateway<br/>Raspberry Pi / ESP32]
+    A --> B
+    A --> C
+    A --> D
+    B & C & D --> E
+    E -->|Telemetria em tempo real| F
+    F --> G
+    F --> H
+    F --> I
+    F --> J
+    J --> K
+    K --> H
+    K --> L
+    H & L -->|Notificações críticas| G
 
-    B -->|TLS + MQTT| C[(Broker MQTT<br/>Mosquitto / EMQX)]
+    classDef hardware fill:#1f6feb,stroke:#333,color:#fff
+    classDef cloud fill:#ff5722,stroke:#333,color:#fff
+    classDef frontend fill:#4caf50,stroke:#333,color:#fff
+    classDef ml fill:#9c27b0,stroke:#333,color:#fff
 
-    C --> D[Ingestão de Dados<br/>Python + Paho-MQTT]
-    D --> E[(Banco Timeseries<br/>PostgreSQL + TimescaleDB)]
-
-    E --> F[Processamento IA/ML]
-    subgraph "Motor de Inteligência Artificial"
-        F1[Pré-processamento<br/>Scikit-learn]
-        F2[Modelos TensorFlow/Keras<br/>• Detecção de anomalias<br/>• Previsão de falhas<br/>• Diagnóstico auxiliar]
-        F3[Simulações criogênicas<br/>SymPy + NumPy]
-        F1 --> F2
-        F3 --> F2
-    end
-
-    F --> G[API Backend<br/>FastAPI / Flask]
-
-    G --> H[Dashboard Web/Mobile<br/>React.js + Chart.js<br/>Alertas Push (Firebase)]
-
-    G --> I[Integração com EMR<br/>HL7 / FHIR<br/>INCA • SIH/SUS]
-
-    H & I --> J[Profissionais de Saúde<br/>Médicos • Enfermeiros<br/>Técnicos de Manutenção]
-
-    style A fill:#1e40af, color:white
-    style F fill:#7c3aed, color:white
-    style H fill:#059669, color:white
-    style J fill:#dc2626, color:white
+    class A,B,C,D,E hardware
+    class F,G,J cloud
+    class H,L frontend
+    class I ml
