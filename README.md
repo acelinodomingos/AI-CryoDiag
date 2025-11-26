@@ -1,3 +1,4 @@
+
 ## Arquitetura do Sistema
 
 ```mermaid
