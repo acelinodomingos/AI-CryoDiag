@@ -1,45 +1,36 @@
-# AI-CryoDiag
-Sistema de IA para diagnóstico em armazenamento criogênico no SUS | Telemetria + ML para tanques de gases medicinais
-# AI-CryoDiag 🚀🩺
+## Arquitetura do Sistema
 
-## Visão Geral
-O **AI-CryoDiag** é um projeto inovador que integra **Inteligência Artificial (IA)** com tecnologias de telemetria para aprimorar o diagnóstico médico em ambientes de armazenamento criogênico, especialmente voltados para o controle de fármacos gasosos e equipamentos hospitalares de alta precisão. 
+```mermaid
+graph TB
+    subgraph "Tanques Criogênicos & Equipamentos Hospitalares"
+        A[Sensores IoT<br/>Temperatura • Pressão • Nível • Vazão]
+    end
 
-Desenvolvido com base em mais de **41 anos de experiência** no setor de saúde pública, incluindo expertise em gasotécnica, manutenção de infraestrutura hospitalar e inovação tecnológica no **Instituto Nacional de Câncer (INCA-RJ)**, este sistema visa otimizar o monitoramento remoto e o diagnóstico preditivo, reduzindo riscos e melhorando a eficiência em cenários como telemetria de tanques criogênicos de alta capacidade.
+    A -->|MQTT / LoRa| B[Edge Gateway<br/>Raspberry Pi / ESP32]
 
-O foco principal é no desenvolvimento de **modelos de IA para diagnóstico médico**, utilizando machine learning para analisar dados em tempo real de sensores IoT, detectar anomalias em condições criogênicas e auxiliar profissionais de saúde em decisões rápidas e precisas. Este projeto reflete uma dedicação à integração de tecnologias avançadas com práticas sustentáveis no **Sistema Único de Saúde (SUS)**, promovendo avanços em políticas públicas de saúde e gestão de recursos.
+    B -->|TLS + MQTT| C[(Broker MQTT<br/>Mosquitto / EMQX)]
 
-## Motivação
-Inspirado em desafios reais enfrentados na gestão de infraestrutura hospitalar, como o armazenamento seguro de gases medicinais e a necessidade de diagnósticos precisos em oncologia, o AI-CryoDiag aborda lacunas em sistemas tradicionais de telemetria. Com formação em eletrônica, edificações e especializações em gestão pública pela **FIOCRUZ** e **UNESA**, o projeto incorpora conhecimentos práticos para criar soluções escaláveis que unem IA, IoT e análise de dados, fomentando a confiança entre humanos e tecnologias emergentes.
+    C --> D[Ingestão de Dados<br/>Python + Paho-MQTT]
+    D --> E[(Banco Timeseries<br/>PostgreSQL + TimescaleDB)]
 
-## Funcionalidades Principais
-- **Telemetria em Tempo Real**: Monitoramento contínuo de variáveis como temperatura, pressão e níveis de gases em tanques criogênicos usando sensores IoT integrados.
-- **IA para Diagnóstico Médico**: Modelos de machine learning (baseados em bibliotecas como TensorFlow e PyTorch) para detecção precoce de falhas em equipamentos e suporte a diagnósticos clínicos, como análise de padrões em dados de pacientes oncológicos.
-- **Análise Preditiva**: Algoritmos que preveem riscos de falhas ou degradação de fármacos, integrando dados históricos e aprendizado supervisionado.
-- **Interface Web e Mobile**: Dashboard intuitivo para visualização de dados, alertas via notificações push e integração com APIs de saúde pública.
-- **Segurança e Conformidade**: Ênfase em cibersegurança, com criptografia de dados e conformidade com normas como LGPD e regulamentações do Ministério da Saúde.
-- **Integração com Sistemas Existentes**: Compatível com protocolos como MQTT para IoT e APIs de EMR (Electronic Medical Records) para diagnósticos médicos.
+    E --> F[Processamento IA/ML]
+    subgraph "Motor de Inteligência Artificial"
+        F1[Pré-processamento<br/>Scikit-learn]
+        F2[Modelos TensorFlow/Keras<br/>• Detecção de anomalias<br/>• Previsão de falhas<br/>• Diagnóstico auxiliar]
+        F3[Simulações criogênicas<br/>SymPy + NumPy]
+        F1 --> F2
+        F3 --> F2
+    end
 
-## Tecnologias Utilizadas
-- **Linguagens de Programação**: Python (para backend e IA), JavaScript (para frontend).
-- **Bibliotecas de IA/ML**: TensorFlow, Keras, Scikit-learn para modelos de diagnóstico.
-- **IoT e Telemetria**: MQTT, Arduino/Raspberry Pi para prototipagem de sensores.
-- **Banco de Dados**: PostgreSQL para armazenamento de dados telemetrados, com suporte a timeseries via TimescaleDB.
-- **Frontend**: React.js para interfaces dinâmicas.
-- **DevOps**: Docker para containerização, GitHub Actions para CI/CD.
-- **Outras Ferramentas**: SymPy para simulações matemáticas de condições criogênicas, e integração com APIs de saúde como PubChem para dados químicos.
+    F --> G[API Backend<br/>FastAPI / Flask]
 
-## Como Contribuir
-1. Fork o repo.
-2. Crie uma branch: `git checkout -b minha-feature`.
-3. Commit suas mudanças: `git commit -m 'Adiciona feature X'`.
-4. Push para a branch: `git push origin minha-feature`.
-5. Abra um Pull Request.
+    G --> H[Dashboard Web/Mobile<br/>React.js + Chart.js<br/>Alertas Push (Firebase)]
 
-## Licença
-MIT License - veja o arquivo [LICENSE](LICENSE) para detalhes.
+    G --> I[Integração com EMR<br/>HL7 / FHIR<br/>INCA • SIH/SUS]
 
----
+    H & I --> J[Profissionais de Saúde<br/>Médicos • Enfermeiros<br/>Técnicos de Manutenção]
 
-**Desenvolvido por Acelino Domingos Correia Filho** | [LinkedIn](https://br.linkedin.com/in/acelino-domingos-correia-filho-a1aa0266) | Contato: [adicione teu email se quiser]  
-#SUS #IA #SaudePublica #INCA #FIOCRUZ
+    style A fill:#1e40af, color:white
+    style F fill:#7c3aed, color:white
+    style H fill:#059669, color:white
+    style J fill:#dc2626, color:white
