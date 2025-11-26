@@ -1,19 +1,19 @@
-## Diagrama de Arquitetura do Sistema
+## Diagrama de Arquitetura do AI-CryoDiag
 
 ```mermaid
 graph TB
-    A[Tanque Criogênico<br/>Oxigênio Líquido / Nitrogênio Líquido]
-    B[Sensor de Pressão<br/>(0-25 bar)]
-    C[Sensor de Nível<br/>(Ultrasônico / Radar)]
-    D[Sensor de Temperatura<br/>(PT100 / Termopar)]
-    E[Gateway IoT<br/>(ESP32 / Raspberry Pi 4)]
-    F[MQTT Broker<br/>(Mosquitto / EMQX / HiveMQ)]
+    A["Tanque Criogênico<br/>Oxigênio Líquido / Nitrogênio Líquido"]
+    B["Sensor de Pressão<br/>(0-25 bar)"]
+    C["Sensor de Nível<br/>(Ultrasônico / Radar)"]
+    D["Sensor de Temperatura<br/>(PT100 / Termopar)"]
+    E["Gateway IoT<br/>(ESP32 / Raspberry Pi 4)"]
+    F["MQTT Broker<br/>(Mosquitto / EMQX / HiveMQ)"]
     G["Alertas Push em Tempo Real<br/>(Firebase Cloud Messaging)"]
     H["Dashboard Web<br/>(React.js + Chart.js + Tailwind)"]
     I["Modelo de Machine Learning<br/>(Detecção de vazamentos e falhas)"]
-    J[Banco de Dados<br/>(InfluxDB + PostgreSQL)]
-    K[API REST<br/>(FastAPI / Flask)]
-    L[App Mobile<br/>(Flutter ou React Native)]
+    J["Banco de Dados<br/>(InfluxDB + PostgreSQL)"]
+    K["API REST<br/>(FastAPI / Flask)"]
+    L["App Mobile<br/>(Flutter ou React Native)"]
 
     A --> B
     A --> C
@@ -29,10 +29,10 @@ graph TB
     K --> L
     H & L -->|Notificações críticas| G
 
-    classDef hardware fill:#1f6feb,stroke:#333,color:#fff
-    classDef cloud fill:#ff5722,stroke:#333,color:#fff
-    classDef frontend fill:#4caf50,stroke:#333,color:#fff
-    classDef ml fill:#9c27b0,stroke:#333,color:#fff
+    classDef hardware fill:#1f6feb,stroke:#fff,color:#fff
+    classDef cloud fill:#ff5722,stroke:#fff,color:#fff
+    classDef frontend fill:#4caf50,stroke:#fff,color:#fff
+    classDef ml fill:#9c27b0,stroke:#fff,color:#fff
 
     class A,B,C,D,E hardware
     class F,G,J cloud
