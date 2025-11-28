@@ -32,4 +32,4 @@ graph TB
     class F,G,J cloud
     class H,L frontend
     class I ml
-Adiciona diagrama de arquitetura funcional (Mermaid)
+
