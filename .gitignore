@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+.env.*
+
+# Data and models
+data/raw/
+data/private/
+*.csv
+*.parquet
+*.pkl
+*.joblib
+models/*.bin
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Node / dashboard
+node_modules/
+dist/
+build/
+
+# Logs and local databases
+*.log
+*.sqlite3
+
