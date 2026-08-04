@@ -1,0 +1,2 @@
+"""Componentes do AI-CryoDiag."""
+
