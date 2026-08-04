@@ -1,101 +1,107 @@
 # AI-CryoDiag
 
-**Sistema de IA para diagnóstico em armazenamento criogênico no SUS**
-Telemetria + Machine Learning para tanques de gases medicinais (oxigênio e nitrogênio líquido)
+<p align="center">
+  <img src="AI-CryoDiag-logo.png" alt="Logo AI-CryoDiag" width="220">
+</p>
 
----
+<h3 align="center">Inteligência artificial para diagnóstico em armazenamento criogênico no SUS</h3>
 
-## 🎯 O Problema
+<p align="center">
+  Telemetria contínua e Machine Learning para tanques de gases medicinais.
+</p>
 
-Hospitais e unidades do SUS que armazenam gases medicinais em tanques criogênicos dependem, na maior parte dos casos, de **inspeção manual e periódica** para detectar variações de pressão, nível e temperatura. Isso significa que:
+<p align="center">
+  <img src="https://img.shields.io/badge/status-em%20desenvolvimento-orange" alt="Status: em desenvolvimento">
+  <img src="https://img.shields.io/badge/licen%C3%A7a-MIT-blue" alt="Licença MIT">
+  <img src="https://img.shields.io/badge/dom%C3%ADnio-sa%C3%BAde%20p%C3%BAblica-1f6feb" alt="Saúde pública">
+</p>
 
-- Vazamentos e falhas silenciosas podem passar despercebidos entre uma ronda e outra
-- Não há alerta em tempo real quando um parâmetro sai da faixa segura
-- A resposta a uma falha depende de alguém notar o problema fisicamente, muitas vezes já em estágio avançado
-- O risco recai diretamente sobre a continuidade do fornecimento de oxigênio a pacientes — um insumo crítico, não um recurso qualquer
+## Sobre o projeto
 
-Em redes hospitalares de grande porte, essa lacuna de monitoramento contínuo representa risco operacional e risco ao paciente.
+O AI-CryoDiag é uma proposta de sistema para monitorar tanques criogênicos de oxigênio e nitrogênio líquido em hospitais e unidades do SUS. O objetivo é transformar leituras de pressão, nível e temperatura em informação acionável para as equipes de manutenção e operação.
 
-## 💡 A Solução
+> **Aviso:** este repositório é um protótipo de pesquisa e desenvolvimento. Não substitui instrumentos certificados, rotinas de segurança, manutenção preventiva ou protocolos hospitalares.
 
-O AI-CryoDiag propõe substituir a inspeção manual por um **sistema de telemetria contínua com detecção inteligente de anomalias**: sensores nos próprios tanques enviam dados em tempo real, um pipeline de dados centraliza essas leituras, e modelos de Machine Learning aprendem o padrão normal de operação para sinalizar desvios — vazamento, queda de pressão, falha de sensor — antes que virem uma emergência.
+## O problema
 
-## 🏗️ Arquitetura do Sistema
+A inspeção manual e periódica pode deixar passar vazamentos, falhas de sensores e desvios de operação entre uma ronda e outra. Em uma infraestrutura crítica, a detecção antecipada ajuda a reduzir riscos operacionais e a proteger a continuidade do fornecimento de gases medicinais.
+
+## Solução proposta
+
+- Coleta contínua de pressão, nível e temperatura;
+- Comunicação de telemetria por MQTT;
+- Armazenamento histórico para análise de séries temporais;
+- Detecção de anomalias e possíveis falhas com Machine Learning;
+- Dashboard para acompanhamento da operação;
+- Alertas para eventos críticos;
+- Registro de eventos e apoio à tomada de decisão.
+
+## Arquitetura de referência
 
 ```mermaid
 graph TB
-    A["Tanques Criogênicos<br/>Oxigênio e Nitrogênio Líquido"]
-    B["Sensores de Pressão<br/>(0-25 bar)"]
-    C["Sensores de Nível<br/>(Ultrasônico / Radar)"]
-    D["Sensores de Temperatura<br/>(PT100 / Termopar)"]
-    E["Gateways IoT<br/>(ESP32 / Raspberry Pi)"]
-    F["Brokers MQTT<br/>(Mosquitto / EMQX / HiveMQ)"]
-    G["Alertas Push<br/>(Firebase Cloud Messaging)"]
-    H["Dashboards Web<br/>(React.js + Chart.js)"]
-    I["Modelos de Machine Learning<br/>(Detecção de vazamentos e falhas)"]
-    J["Bancos de Dados<br/>(InfluxDB + PostgreSQL)"]
-    K["APIs REST<br/>(FastAPI / Flask)"]
-    L["Apps Mobile<br/>(Flutter / React Native)"]
-
-    A --> B & C & D
-    B & C & D --> E
-    E -->|Telemetria em tempo real| F
-    F --> G & H & I & J
-    J --> K
-    K --> H & L
-    H & L -->|Notificações críticas| G
-
-    classDef hardware fill:#1f6feb,stroke:#fff,color:#fff
-    classDef cloud fill:#ff5722,stroke:#fff,color:#fff
-    classDef frontend fill:#4caf50,stroke:#fff,color:#fff
-    classDef ml fill:#9c27b0,stroke:#fff,color:#fff
-
-    class A,B,C,D,E hardware
-    class F,G,J cloud
-    class H,L frontend
-    class I ml
+    A[Tanque criogênico] --> B[Sensores: pressão, nível e temperatura]
+    B --> C[Gateway IoT: ESP32 / Raspberry Pi]
+    C --> D[Broker MQTT]
+    D --> E[(InfluxDB / PostgreSQL)]
+    D --> F[Motor de detecção de anomalias]
+    E --> G[API REST]
+    F --> G
+    G --> H[Dashboard]
+    G --> I[Alertas e relatórios]
 ```
 
-**Camadas do sistema:**
+## Tecnologias previstas
 
-| Camada | Componentes | Função |
-|---|---|---|
-| Física | Sensores de pressão, nível e temperatura | Captação de dados brutos nos tanques |
-| Borda (Edge) | Gateways ESP32 / Raspberry Pi | Coleta e envio da telemetria |
-| Transporte | Broker MQTT (Mosquitto / EMQX / HiveMQ) | Comunicação em tempo real, baixa latência |
-| Armazenamento | InfluxDB (série temporal) + PostgreSQL (dados relacionais) | Histórico de leituras e metadados |
-| Inteligência | Modelos de ML | Detecção de anomalias, vazamentos e falhas |
-| Aplicação | API REST (FastAPI/Flask), Dashboard (React), App (Flutter/React Native) | Visualização e alertas para a equipe |
+| Camada | Tecnologias |
+|---|---|
+| Edge | ESP32, Raspberry Pi |
+| Mensageria | MQTT, Mosquitto, EMQX ou HiveMQ |
+| Backend | Python, FastAPI ou Flask |
+| Dados | InfluxDB e PostgreSQL |
+| Machine Learning | Modelos para séries temporais e anomalias |
+| Interface | React.js e Chart.js |
+| Notificações | Firebase Cloud Messaging |
 
-## 👤 Por que este projeto
+## Roadmap
 
-Este projeto nasce da experiência prática de anos de gestão de redes de gases medicinais e criogenia em ambiente hospitalar (INCA/RJ, vinculado ao Ministério da Saúde), incluindo a supervisão direta de manutenção predial e infraestrutura crítica de suporte à vida. O AI-CryoDiag é a tentativa de traduzir esse conhecimento de campo — o que de fato falha, como falha, e o que uma equipe de manutenção precisa saber primeiro — em um sistema de monitoramento inteligente pensado para a realidade do SUS.
+- [x] Definição da proposta e da arquitetura de referência
+- [x] Documentação inicial do problema e da solução
+- [x] Criação da identidade visual do projeto
+- [ ] Protótipo com sensor real em ambiente controlado
+- [ ] Pipeline MQTT → banco de séries temporais
+- [ ] Dashboard de telemetria
+- [ ] Modelo inicial de detecção de anomalias
+- [ ] Testes de validação e segurança
+- [ ] Piloto acompanhado por equipe especializada
 
-## 🗺️ Roadmap
+## Estrutura planejada
 
-- [x] Definição da arquitetura do sistema
-- [ ] Protótipo com 1 sensor real (prova de conceito)
-- [ ] Pipeline de ingestão de telemetria (MQTT → InfluxDB)
-- [ ] Dashboard básico de visualização
-- [ ] Primeiro modelo de detecção de anomalias
-- [ ] Piloto em ambiente controlado
+```text
+AI-CryoDiag/
+├── docs/                 # documentação técnica e operacional
+├── data/                 # exemplos anonimizados e dados de teste
+├── src/                  # ingestão, API e modelos
+├── dashboard/            # interface web
+├── tests/                # testes automatizados
+├── AI-CryoDiag-logo.png  # identidade visual
+├── LICENSE
+└── README.md
+```
 
-## 🛠️ Stack Tecnológica
+## Origem e propósito
 
-- **Hardware/Edge:** ESP32, Raspberry Pi
-- **Mensageria:** MQTT (Mosquitto, EMQX, HiveMQ)
-- **Backend:** FastAPI / Flask
-- **Banco de dados:** InfluxDB, PostgreSQL
-- **Machine Learning:** detecção de anomalias em séries temporais
-- **Frontend:** React.js, Chart.js
-- **Mobile:** Flutter / React Native
-- **Notificações:** Firebase Cloud Messaging
+O projeto nasce da experiência prática com gestão de redes de gases medicinais, criogenia e infraestrutura hospitalar crítica. A proposta é aproximar conhecimento de campo, engenharia, ciência de dados e gestão pública para criar ferramentas úteis à realidade do SUS.
 
-## 📄 Licença
+## Contribuição
 
-Este projeto está licenciado sob a licença MIT — veja o arquivo [LICENSE](LICENSE) para detalhes.
+Sugestões, correções e contribuições são bem-vindas. Para propor uma melhoria, abra uma issue descrevendo o problema ou envie um pull request com contexto, testes e documentação quando aplicável.
 
-## 📬 Contato
+## Licença
 
-Acelino Domingos Correia Filho
+Este projeto está sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE).
+
+## Autor
+
+**Acelino Domingos Correia Filho**  
 [github.com/acelinodomingos](https://github.com/acelinodomingos)
