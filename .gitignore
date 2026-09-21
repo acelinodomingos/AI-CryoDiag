@@ -29,5 +29,9 @@ build/
 
 # Logs and local databases
 *.log
-*.sqlite3
+*.sqlite3   # Modelos treinados e dados brutos pesados
+   models/*.pkl
+   models/*.h5
+   data/raw/*.csv
+   .env
 
