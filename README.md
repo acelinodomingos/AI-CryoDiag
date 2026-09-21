@@ -1,5 +1,5 @@
 # AI-CryoDiag
-
+   🚀 **[CLIQUE AQUI PARA VER O DASHBOARD AO VIVO](https://ai-cryodiag-gohujcmxnmxddww3v7vtkl.streamlit.app/)**
 **Sistema de Inteligência Artificial para diagnóstico e monitoramento de armazenamento criogênico de fármacos gasosos no SUS**
 
 [![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)](https://github.com/acelinodomingos/AI-CryoDiag)
